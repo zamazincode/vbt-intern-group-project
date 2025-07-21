@@ -17,7 +17,7 @@ def generate_description():
         return jsonify({"error": "Missing fields: 'type', 'age', 'breed' are required."}), 400
 
     prompt = (
-        f"Bir evcil hayvan için sıcak ve ilgi çekici bir tanıtım yazısı oluştur. "
+        f"Bir evcil hayvan için sıcak ve ilgi çekici bir tanıtım yazısı oluştur. (maximum 150 kelime) "
         f"Tür: {data['type']}, Yaş: {data['age']}, Cins: {data['breed']}."
     )
     try:
@@ -35,7 +35,7 @@ def recommend_pet():
 
     prompt = (
         f"Kullanıcının yaşam tarzı ve tercihleri: {data['preferences']}. "
-        f"Bu bilgilere göre en uygun evcil hayvan türlerini öner ve nedenlerini açıkla."
+        f"Bu bilgilere göre en uygun evcil hayvan türlerini öner ve nedenlerini açıkla (maximum 150 kelime)."
     )
     try:
         model = genai.GenerativeModel(model_name)
