@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pet_store/view/home/cards/productCard.dart';
+import 'package:mobile/view/home/cards/productCard.dart';
 
 class Section extends StatelessWidget {
   final String title;

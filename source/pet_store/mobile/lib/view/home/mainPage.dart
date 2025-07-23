@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pet_store/constants/colors.dart';
-import 'package:pet_store/constants/section.dart';
+import 'package:mobile/constants/colors.dart';
+import 'package:mobile/constants/section.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({super.key});

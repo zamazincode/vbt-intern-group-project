@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pet_store/constants/colors.dart';
+import 'package:mobile/constants/colors.dart';
+import 'package:mobile/view_model/user_auth/register_vm.dart';
+import 'package:mobile/services/register_s.dart';
+import 'package:mobile/view/user_auth/login.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -9,6 +12,8 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  final RegisterViewModel _vm = RegisterViewModel();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,17 +44,28 @@ class _RegisterState extends State<Register> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                buildField("Ad", "Adınızı girin"),
-                buildField("Soyad", "Soyadınızı girin"),
-                buildField("Kullanıcı Adı", "Kullanıcı adınızı girin"),
-                buildField("E-posta", "E-posta adresinizi girin", keyboardType: TextInputType.emailAddress),
-                buildField("Şifre", "Şifre belirleyin", isPassword: true),
+                buildField("Ad", "Adınızı girin", onChanged: (v) => _vm.name = v),
+                buildField("Soyad", "Soyadınızı girin", onChanged: (v) => _vm.surname = v),
+                buildField("Kullanıcı Adı", "Kullanıcı adınızı girin", onChanged: (v) => _vm.userName = v),
+                buildField("E-posta", "E-posta adresinizi girin", keyboardType: TextInputType.emailAddress, onChanged: (v) => _vm.email = v),
+                buildField("Şifre", "Şifre belirleyin", isPassword: true, onChanged: (v) => _vm.password = v),
                 const SizedBox(height: 24),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {
-                      // Register işlemleri burada yapılacak
+                    onPressed: () async {
+                      final result = await RegisterService.register(_vm.toJson());
+                      if (!mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(result)),
+                      );
+                      if (result == "Kayıt başarılı!") {
+                        Future.delayed(const Duration(milliseconds: 500), () {
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (_) => const Login()),
+                          );
+                        });
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor:AppColors.yellow,
@@ -70,7 +86,7 @@ class _RegisterState extends State<Register> {
   }
 
   Widget buildField(String label, String hint,
-      {bool isPassword = false, TextInputType keyboardType = TextInputType.text}) {
+      {bool isPassword = false, TextInputType keyboardType = TextInputType.text, Function(String)? onChanged}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -81,6 +97,7 @@ class _RegisterState extends State<Register> {
         TextField(
           obscureText: isPassword,
           keyboardType: keyboardType,
+          onChanged: onChanged,
           decoration: InputDecoration(
             hintText: hint,
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(6)),

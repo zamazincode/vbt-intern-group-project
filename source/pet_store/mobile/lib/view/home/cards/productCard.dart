@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pet_store/constants/colors.dart';
+import 'package:mobile/constants/colors.dart';
 
 class ProductCard extends StatelessWidget {
   final String imageUrl;
