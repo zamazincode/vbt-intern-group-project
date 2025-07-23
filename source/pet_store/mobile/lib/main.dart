@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:mobile/view/user_auth/login.dart';
-import 'package:mobile/view_model/user_auth/login_vm.dart';
+import 'package:pet_store/view/home/mainPage.dart';
+import 'package:pet_store/view/user_auth/login.dart';
+import 'package:pet_store/view/user_auth/register.dart';
+import 'package:pet_store/view_model/user_auth/login_vm.dart';
 import 'package:provider/provider.dart';
 
 
@@ -26,9 +28,11 @@ class PetStore extends StatelessWidget {
         fontFamily: 'SF PRO',
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
+      initialRoute: '/mainPage',
       routes: {
         '/': (context) => Login(),
+        '/register': (context) => Register(),
+        '/mainPage': (context) => const MainPage(),
       },
     );
   }
@@ -42,4 +46,3 @@ class MyHttpOverrides extends HttpOverrides {
           (X509Certificate cert, String host, int port) => true;
   }
 }
-
