@@ -17,7 +17,8 @@ export default function Logo({
         <Component
             to={isLink ? href : ""}
             className={
-                "font-bold md:text-4xl text-2xl font-payton-one " + className
+                "font-bold md:text-4xl text-2xl font-payton-one text-nowrap " +
+                className
             }
         >
             Pet <span className="text-primary">Shop</span>
