@@ -15,6 +15,25 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    checkLogin();
+  }
+
+  Future<void> checkLogin() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    if (token != null && token.isNotEmpty) {
+      // Token varsa mainPage'e yönlendir
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.pushReplacementNamed(context, '/mainPage');
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final loginVM = Provider.of<LoginViewModel>(context);
@@ -102,35 +121,54 @@ class _LoginState extends State<Login> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () async {
-                      final result = await LoginService.login(loginVM.username, loginVM.password);
-                      final body = result['body'];
-                      if (body['isSuccess'] == true && body['result'] != null) {
-                        final token = body['result']['token'];
-                        final user = body['result']['user'];
-                        final prefs = await SharedPreferences.getInstance();
-                        await prefs.setString('token', token);
-                        await prefs.setString('user', jsonEncode(user));
-                        // Konsola yazdır
-                        print('TOKEN: $token');
-                        print('USER: $user');
-                        if (!mounted) return;
-                        Navigator.pushReplacementNamed(context, '/mainPage');
-                      } else {
-                        if (!mounted) return;
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(body['message'] ?? 'Giriş başarısız')),
-                        );
-                      }
-                    },
+                    onPressed: isLoading
+                        ? null
+                        : () async {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            final result = await LoginService.login(loginVM.username, loginVM.password);
+                            final body = result['body'];
+                            if (body['isSuccess'] == true && body['result'] != null) {
+                              final token = body['result']['token'];
+                              final user = body['result']['user'];
+                              final prefs = await SharedPreferences.getInstance();
+                              await prefs.setString('token', token);
+                              await prefs.setString('user', jsonEncode(user));
+                              // Konsola yazdır
+                              print('TOKEN: $token');
+                              print('USER: $user');
+                              if (!mounted) return;
+                              Navigator.pushReplacementNamed(context, '/mainPage');
+                            } else {
+                              if (!mounted) return;
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(body['message'] ?? 'Giriş başarısız')),
+                              );
+                            }
+                            if (mounted) {
+                              setState(() {
+                                isLoading = false;
+                              });
+                            }
+                          },
                     style: ElevatedButton.styleFrom(
                       backgroundColor:AppColors.yellow,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
-                    child: const Text(
-                      "Giriş Yap",
-                      style: TextStyle(color: AppColors.white, fontSize: 16),
-                    ),
+                    child: isLoading
+                        ? const SizedBox(
+                            height: 24,
+                            width: 24,
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(AppColors.white),
+                              strokeWidth: 3,
+                            ),
+                          )
+                        : const Text(
+                            "Giriş Yap",
+                            style: TextStyle(color: AppColors.white, fontSize: 16),
+                          ),
                   ),
                 ),
               ],

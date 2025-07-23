@@ -1,9 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/constants/colors.dart';
 import 'package:mobile/constants/section.dart';
+import 'package:mobile/services/index_s.dart';
+import 'package:mobile/view/user_auth/login.dart';
+import 'package:mobile/view/user_auth/register.dart';
+import 'package:mobile/view/profile/profile.dart';
 
-class MainPage extends StatelessWidget {
+class MainPage extends StatefulWidget {
   const MainPage({super.key});
+
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  @override
+  void initState() {
+    super.initState();
+    fetchPosts();
+  }
+
+  Future<void> fetchPosts() async {
+    final result = await PostService.getAllPosts();
+    print('GetAllPost response: $result');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +66,16 @@ class MainPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Pet Store"),
+        leading: IconButton(
+          icon: const Icon(Icons.person),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const Profile()),
+            );
+          },
+        ),
+        title: const Text("Pets"),
         backgroundColor: AppColors.yellow,
         centerTitle: true,
         elevation: 0,
