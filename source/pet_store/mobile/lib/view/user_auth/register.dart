@@ -13,6 +13,7 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final RegisterViewModel _vm = RegisterViewModel();
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -53,28 +54,45 @@ class _RegisterState extends State<Register> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () async {
-                      final result = await RegisterService.register(_vm.toJson());
-                      if (!mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(result)),
-                      );
-                      if (result == "Kayıt başarılı!") {
-                        Future.delayed(const Duration(milliseconds: 500), () {
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (_) => const Login()),
-                          );
-                        });
-                      }
-                    },
+                    onPressed: isLoading
+                        ? null
+                        : () async {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            final result = await RegisterService.register(_vm.toJson());
+                            if (!mounted) return;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(result)),
+                            );
+                            if (result == "Kayıt başarılı!") {
+                              Future.delayed(const Duration(milliseconds: 500), () {
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(builder: (_) => const Login()),
+                                );
+                              });
+                            }
+                            setState(() {
+                              isLoading = false;
+                            });
+                          },
                     style: ElevatedButton.styleFrom(
                       backgroundColor:AppColors.yellow,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
-                    child: const Text(
-                      "Kayıt Ol",
-                      style: TextStyle(color: AppColors.white, fontSize: 16),
-                    ),
+                    child: isLoading
+                        ? const SizedBox(
+                            height: 24,
+                            width: 24,
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(AppColors.white),
+                              strokeWidth: 3,
+                            ),
+                          )
+                        : const Text(
+                            "Kayıt Ol",
+                            style: TextStyle(color: AppColors.white, fontSize: 16),
+                          ),
                   ),
                 ),
               ],
