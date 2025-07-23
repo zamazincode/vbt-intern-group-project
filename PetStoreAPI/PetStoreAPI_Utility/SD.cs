@@ -33,5 +33,17 @@ namespace PetStoreAPI_Utility
             Approved,
             Rejected
         }
+
+        public enum PostQueryType
+        {
+            GetAllPosts = 1,
+            GetPostById = 2,
+            GetPostsByUserId = 3,
+            GetAdoptedPosts = 4,
+            GetAvailablePosts = 5,
+            GetPostsByPetType = 6,
+            GetRecentPosts = 7,
+            GetPostsByLocation = 8
+        }
     }
 }
