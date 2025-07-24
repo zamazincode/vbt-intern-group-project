@@ -1,24 +1,37 @@
 import os
 from flask import Flask, request, jsonify
 import google.generativeai as genai
-from dotenv import load_dotenv
 
-load_dotenv()
+
 app = Flask(__name__)
 
-genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
-model_name = "gemini-2.5-pro"
+
+api_key = os.getenv("GEMINI_API_KEY")
+
+
+if not api_key:
+    print("HATA: GEMINI_API_KEY ortam değişkeni tanımlı değil. Lütfen PythonAnywhere ayarlarınızda tanımlayın.")
+
+genai.configure(api_key=api_key)
+model_name = "gemini-2.5-pro" 
 
 @app.route('/generate-description', methods=['POST'])
 def generate_description():
+    """
+    Verilen hayvan bilgilerine göre tanıtım metni üretir.
+    Gerekli alanlar: 'type', 'breed'.
+    """
     data = request.get_json()
-    required_fields = ["type", "age", "breed"]
+    required_fields = ["type", "breed"]
+    
+    
     if not data or not all(field in data for field in required_fields):
-        return jsonify({"error": "Missing fields: 'type', 'age', 'breed' are required."}), 400
+        
+        return jsonify({"error": "Eksik alanlar: 'type', 'breed' gereklidir."}), 400
 
     prompt = (
-        f"Bir evcil hayvan için sıcak ve ilgi çekici bir tanıtım yazısı oluştur. (maximum 150 kelime) "
-        f"Tür: {data['type']}, Yaş: {data['age']}, Cins: {data['breed']}."
+        f"Bir evcil hayvan için sıcak ve ilgi çekici bir tanıtım yazısı oluştur. Sadece metini yaz. Herhangi bir sembol olmasın. (maximum 50 kelime) "
+        f"Tür: {data['type']}, Cins: {data['breed']}."
     )
     try:
         model = genai.GenerativeModel(model_name)
@@ -29,13 +42,18 @@ def generate_description():
 
 @app.route('/recommend-pet', methods=['POST'])
 def recommend_pet():
+    """
+    Kullanıcının yaşam tarzına göre evcil hayvan önerir.
+    Gerekli alan: 'preferences'.
+    """
     data = request.get_json()
+  
     if not data or "preferences" not in data:
-        return jsonify({"error": "Missing field: 'preferences' is required."}), 400
+        return jsonify({"error": "Eksik alan: 'preferences' gereklidir."}), 400
 
     prompt = (
         f"Kullanıcının yaşam tarzı ve tercihleri: {data['preferences']}. "
-        f"Bu bilgilere göre en uygun evcil hayvan türlerini öner ve nedenlerini açıkla (maximum 150 kelime)."
+        f"Bu bilgilere göre en uygun evcil hayvan türlerini öner ve nedenlerini açıkla. Sadece metni yaz Herhangi bir sembol olmasın. (maximum 50 kelime)."
     )
     try:
         model = genai.GenerativeModel(model_name)
@@ -44,5 +62,5 @@ def recommend_pet():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-if __name__ == "__main__":
-    app.run(host="localhost", port=5000)
+
+application = app

@@ -4,7 +4,7 @@ import Socials from "./socials";
 
 export default function Footer() {
     return (
-        <footer className="bg-[#ede8e8] md:px-12 p-8 containerx rounded-tl-2xl rounded-tr-2xl">
+        <footer className="bg-foreground md:px-12 p-8 containerx rounded-tl-2xl rounded-tr-2xl">
             <div className="flex items-end justify-between max-sm:flex-col max-sm:items-center gap-6">
                 <Logo />
                 <Navbar />

@@ -4,6 +4,10 @@ import Home from "./pages/home";
 import NotFound from "./pages/not-found";
 import Login from "./pages/auth/login";
 import PetList from "./pages/PetList";
+import Register from "./pages/auth/register";
+import ProfileLayout from "./pages/profile/ProfileLayout";
+import Profile from "./pages/profile/profile";
+import ProtectedRoute from "./components/ProtectedRoot";
 
 function App() {
     return (
@@ -14,6 +18,19 @@ function App() {
                 <Route path="ilanlar" element={<PetList />} />
 
                 <Route path="auth/login" element={<Login />} />
+                <Route path="auth/register" element={<Register />} />
+
+                <Route
+                    path="/profile"
+                    element={
+                        <ProtectedRoute>
+                            <ProfileLayout />
+                        </ProtectedRoute>
+                    }
+                >
+                    <Route index element={<Profile />} />
+                </Route>
+
                 <Route path="*" element={<NotFound />} />
             </Route>
         </Routes>

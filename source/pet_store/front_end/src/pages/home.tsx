@@ -39,7 +39,7 @@ export default function Home() {
             </section>
 
             {/* Feature */}
-            <section className="my-32 px-12 py-8 containerx bg-[#ede8e8] rounded-lg flex max-md:flex-col-reverse md:justify-between justify-center max-md:text-center items-center md:h-[300px]">
+            <section className="my-32 px-12 py-8 containerx bg-foreground rounded-lg flex max-md:flex-col-reverse md:justify-between justify-center max-md:text-center items-center md:h-[300px]">
                 <div className="space-y-4 md:w-2/3">
                     <h2 className="text-4xl font-semibold">
                         Lorem ipsum dolor sit amet!
