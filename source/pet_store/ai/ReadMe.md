@@ -19,7 +19,7 @@ Verilen hayvan bilgilerine göre tanıtım metni üretir.
 
 ```json
 {
-  "pet_type": "kedi",
+  "type": "kedi",
   "breed": "British Shorthair"
 }
 ```
