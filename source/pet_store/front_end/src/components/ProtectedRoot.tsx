@@ -1,17 +1,18 @@
 import { Navigate } from "react-router";
+import { useAuth } from "../hooks/useAuth";
 
 type ProtectedRouteProps = {
-    user: "" | null;
     redirectPath?: string;
     children: React.ReactNode;
 };
 
 export default function ProtectedRoute({
-    user,
-    redirectPath = "/",
+    redirectPath = "/auth/login",
     children,
 }: ProtectedRouteProps) {
-    if (!user) {
+    const { isAuth } = useAuth();
+
+    if (!isAuth) {
         return <Navigate to={redirectPath} />;
     }
 
