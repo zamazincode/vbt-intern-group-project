@@ -14,6 +14,7 @@ cd source
 cd pet_store
 cd mobile
 flutter pub get
+flutter run 
 ```
 
 ---
