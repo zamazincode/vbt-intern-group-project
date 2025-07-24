@@ -40,8 +40,10 @@ class PetStore extends StatelessWidget {
         fontFamily: 'SF PRO',
       ),
       debugShowCheckedModeBanner: false,
+      initialRoute: '/login',
       home: isLoggedIn ? const MainPage() : const Login(),
       routes: {
+        '/login': (context) => const Login(),
         '/register': (context) => Register(),
         '/mainPage': (context) => MainPage(),
         '/addPet': (context) => AddPet(),

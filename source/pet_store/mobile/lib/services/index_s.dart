@@ -1,5 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class PostService {
   static Future<String?> getAllPosts() async {
@@ -19,5 +20,9 @@ class PostService {
     );
     return response.body;
   }
-}
 
+  static Future<void> logout() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+  }
+}

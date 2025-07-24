@@ -40,31 +40,34 @@ class _LoginState extends State<Login> {
 
     return Scaffold(
       backgroundColor: const Color(0xFFFDF6F9),
+      appBar: AppBar(
+        backgroundColor: AppColors.yellow,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.home, color: AppColors.white,),
+          tooltip: "Ana Sayfa",
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, '/mainPage');
+          },
+        ),
+        actions: [
+          TextButton.icon(
+            onPressed: () {
+              Navigator.pushNamed(context, '/register');
+            },
+            icon: const Icon(Icons.person_add, color: AppColors.white),
+            label: const Text(
+              "Üye Ol",
+              style: TextStyle(color: AppColors.white, fontWeight: FontWeight.bold),
+            ),
+            style: TextButton.styleFrom(
+              foregroundColor: AppColors.white,
+            ),
+          ),
+        ],
+      ),
       body: Column(
         children: [
-          Container(
-            height: 100,
-            color: AppColors.yellow,
-            padding: const EdgeInsets.only(top: 40, right: 16),
-            alignment: Alignment.centerRight,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                const Icon(Icons.person_add, color: AppColors.white),
-                const SizedBox(width: 8),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/register'); // yönlendirme
-                  },
-                  child: const Text(
-                    "Üye Ol",
-                    style: TextStyle(color:AppColors.white, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
-            ),
-
-          ),
           const SizedBox(height: 120),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),

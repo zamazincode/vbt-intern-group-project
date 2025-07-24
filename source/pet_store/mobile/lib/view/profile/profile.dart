@@ -101,6 +101,19 @@ class _ProfileState extends State<Profile> {
                             height: 180,
                             width: double.infinity,
                             fit: BoxFit.cover,
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return const SizedBox(
+                                height: 180,
+                                child: Center(
+                                  child: SizedBox(
+                                    width: 36,
+                                    height: 36,
+                                    child: CircularProgressIndicator(strokeWidth: 3),
+                                  ),
+                                ),
+                              );
+                            },
                             errorBuilder: (context, error, stackTrace) => const Icon(Icons.image, size: 80),
                           ),
                         ),
