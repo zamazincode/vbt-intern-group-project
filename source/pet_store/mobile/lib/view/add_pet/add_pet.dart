@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile/constants/colors.dart';
 import 'package:mobile/services/add_pet_s.dart';
+import 'package:mobile/services/pet_detail_s.dart';
 import 'package:mobile/view/profile/profile.dart';
 import 'package:mobile/view_model/add_pet/add_pet_vm.dart';
 import 'package:provider/provider.dart';
@@ -28,14 +28,19 @@ class AddPetForm extends StatefulWidget {
   State<AddPetForm> createState() => _AddPetFormState();
 }
 
-class _AddPetFormState extends State<AddPetForm> {
+class _AddPetFormState extends State<AddPetForm> with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   File? _imageFile;
   final TextEditingController _dateController = TextEditingController();
+  late AnimationController _aiController;
 
   @override
   void initState() {
     super.initState();
+    _aiController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    )..repeat();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<AddPetViewModel>(context, listen: false).setUserFromPrefs();
     });
@@ -43,6 +48,7 @@ class _AddPetFormState extends State<AddPetForm> {
 
   @override
   void dispose() {
+    _aiController.dispose();
     _dateController.dispose();
     super.dispose();
   }
@@ -96,7 +102,7 @@ class _AddPetFormState extends State<AddPetForm> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.yellow,
-        leading: BackButton(),
+        leading: const BackButton(),
         title: const Text("Pet Ekle"),
         centerTitle: true,
       ),
@@ -121,18 +127,13 @@ class _AddPetFormState extends State<AddPetForm> {
                 onChanged: (v) => vm.petType = v,
                 validator: (v) => v == null || v.isEmpty ? "Pet türü giriniz" : null,
               ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: "Açıklama"),
-                onChanged: (v) => vm.description = v,
-                validator: (v) => v == null || v.isEmpty ? "Açıklama giriniz" : null,
-              ),
               SwitchListTile(
                 title: const Text("Sahiplendirildi mi?"),
                 value: vm.isAdopted,
                 onChanged: (v) {
                   vm.isAdopted = v;
-                  vm.notifyListeners(); // <-- Bunu ekle
-                  setState(() {}); // <-- İsteğe bağlı, ama notifyListeners yeterli
+                  vm.notifyListeners();
+                  setState(() {});
                 },
               ),
               TextFormField(
@@ -142,7 +143,6 @@ class _AddPetFormState extends State<AddPetForm> {
                 onTap: () => _pickDate(context, vm),
                 validator: (v) => vm.postTime == null ? "Tarih seçiniz" : null,
               ),
-
               const SizedBox(height: 12),
               Row(
                 children: [
@@ -172,13 +172,22 @@ class _AddPetFormState extends State<AddPetForm> {
                             return;
                           }
                           vm.setLoading(true);
+
+                          final description = await PetDetailService.generateDescription(
+                            type: vm.petType ?? '',
+                            breed: vm.petName ?? '',
+                          ) ?? '';
+                          print("GENERATE DESCRİPTİONN: $description");
+
+                          vm.description = description;
+
                           final response = await AddPetService.createPost(vm.toRequestBody(), imageFile: _imageFile);
                           vm.setLoading(false);
                           if (response.statusCode == 200 || response.statusCode == 201) {
                             if (!mounted) return;
                             Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(builder: (_) => const Profile()),
-                                  (route) => false,
+                              (route) => false,
                             );
                           } else {
                             if (!mounted) return;
@@ -192,18 +201,18 @@ class _AddPetFormState extends State<AddPetForm> {
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
                   child: vm.isLoading
-                      ? const SizedBox(
-                    height: 24,
-                    width: 24,
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(AppColors.white),
-                      strokeWidth: 3,
-                    ),
-                  )
+                      ? SizedBox(
+                          height: 24,
+                          width: 24,
+                          child: RotationTransition(
+                            turns: _aiController,
+                            child: const Icon(Icons.smart_toy, color: AppColors.white, size: 24),
+                          ),
+                        )
                       : const Text(
-                    "Kaydet",
-                    style: TextStyle(color: AppColors.white, fontSize: 16),
-                  ),
+                          "Kaydet",
+                          style: TextStyle(color: AppColors.white, fontSize: 16),
+                        ),
                 ),
               ),
             ],

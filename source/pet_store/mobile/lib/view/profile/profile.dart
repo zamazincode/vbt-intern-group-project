@@ -116,6 +116,14 @@ class _ProfileState extends State<Profile> {
                             },
                             errorBuilder: (context, error, stackTrace) => const Icon(Icons.image, size: 80),
                           ),
+                        )
+                      else
+                        Container(
+                          height: 180,
+                          color: Colors.grey.shade300,
+                          child: const Center(
+                            child: Icon(Icons.pets, size: 48, color: Colors.grey),
+                          ),
                         ),
                       const SizedBox(height: 10),
                       Text(
