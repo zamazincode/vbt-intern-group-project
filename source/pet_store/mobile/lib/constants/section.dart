@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/view/home/cards/productCard.dart';
+import 'package:mobile/services/pet_detail_s.dart';
+import 'package:mobile/view/pet_detail/pet_detail.dart';
 
 class Section extends StatelessWidget {
   final String title;
@@ -13,35 +15,68 @@ class Section extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text(
-              title,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+          child: Text(
+            title,
+            style: const TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
             ),
           ),
-          const SizedBox(height: 12),
-          SizedBox(
-            height: 270,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: items.length,
-              itemBuilder: (context, index) {
-                final product = items[index];
-                return ProductCard(
-                  imageUrl: product["imageUrl"]!,
-                  title: product["title"]!,
-                );
-              },
-            ),
+        ),
+        SizedBox(
+          height: 295,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: items.length,
+            itemBuilder: (context, index) {
+              final item = items[index];
+              return ProductCard(
+                imageUrl: item['imageUrl'] ?? '',
+                petName: item['petName'] ?? '',
+                onAdopt: () {
+                  // Sahiplen butonuna basınca yapılacaklar
+                },
+                onTap: () async {
+                  // Sadece sahiplen butonu hariç kartın tamamına tıklanınca çalışır
+                  final postIdStr = item['postId'];
+                  if (postIdStr == null) return;
+                  final postId = int.tryParse(postIdStr);
+                  if (postId == null) return;
+
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (context) => const Center(child: CircularProgressIndicator()),
+                  );
+
+                  final postDetail = await PetDetailService.getPostById(postId);
+
+                  Navigator.of(context).pop(); // loading dialog kapat
+
+                  if (postDetail != null && context.mounted) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => PetDetail(postData: postDetail),
+                      ),
+                    );
+                  } else if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Pet detayları alınamadı!")),
+                    );
+                  }
+                },
+              );
+            },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
