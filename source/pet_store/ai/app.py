@@ -19,19 +19,19 @@ model_name = "gemini-2.5-pro"
 def generate_description():
     """
     Verilen hayvan bilgilerine göre tanıtım metni üretir.
-    Gerekli alanlar: 'type', 'age', 'breed'.
+    Gerekli alanlar: 'type', 'breed'.
     """
     data = request.get_json()
-    required_fields = ["type", "age", "breed"]
+    required_fields = ["type", "breed"]
     
     
     if not data or not all(field in data for field in required_fields):
         
-        return jsonify({"error": "Eksik alanlar: 'type', 'age', 'breed' gereklidir."}), 400
+        return jsonify({"error": "Eksik alanlar: 'type', 'breed' gereklidir."}), 400
 
     prompt = (
-        f"Bir evcil hayvan için sıcak ve ilgi çekici bir tanıtım yazısı oluştur. (maximum 150 kelime) "
-        f"Tür: {data['type']}, Yaş: {data['age']}, Cins: {data['breed']}."
+        f"Bir evcil hayvan için sıcak ve ilgi çekici bir tanıtım yazısı oluştur. (maximum 50 kelime) "
+        f"Tür: {data['type']}, Cins: {data['breed']}."
     )
     try:
         model = genai.GenerativeModel(model_name)
@@ -53,7 +53,7 @@ def recommend_pet():
 
     prompt = (
         f"Kullanıcının yaşam tarzı ve tercihleri: {data['preferences']}. "
-        f"Bu bilgilere göre en uygun evcil hayvan türlerini öner ve nedenlerini açıkla (maximum 150 kelime)."
+        f"Bu bilgilere göre en uygun evcil hayvan türlerini öner ve nedenlerini açıkla (maximum 50 kelime)."
     )
     try:
         model = genai.GenerativeModel(model_name)
