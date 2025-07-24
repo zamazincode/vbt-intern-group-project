@@ -1,16 +1,22 @@
-# mobile
 
-A new Flutter project.
+# 🐾 Pet Store Mobile
 
-## Getting Started
+Bu proje, Flutter ile geliştirilmiş olup temel pet store işlevlerini gerçekleştirir.
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+---
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 📦 Gerekli Paketler ve Çalıştırma (flutter SDK Yüklü Olmalıdır)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```
+git clone https://github.com/unuvarx/vbt-intern-group-project.git
+cd source
+cd pet_store
+cd mobile
+flutter pub get
+```
+
+---
+
+
+Hazırlayan: `Pet Store Mobile Ekibi` 🐶🐱🐰
