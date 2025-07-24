@@ -72,23 +72,22 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowSpecificOrigin", builder =>
+    options.AddPolicy("AllowAll", policy =>
     {
-        builder.WithOrigins("https://paficapiv2.justkey.online/", "https://paficapi.justkey.online/")
+        policy.AllowAnyOrigin()
                .AllowAnyMethod()
-               .AllowAnyHeader()
-               .AllowCredentials();
+               .AllowAnyHeader();
+        // NOT: AllowCredentials() kullanmayýn AllowAnyOrigin() ile birlikte
     });
 });
-
 var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
+app.UseCors("AllowAll");
 app.UseRouting();
-app.UseCors("AllowSpecificOrigin");
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseStaticFiles();
