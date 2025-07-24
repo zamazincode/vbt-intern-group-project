@@ -39,11 +39,8 @@ class Section extends StatelessWidget {
               return ProductCard(
                 imageUrl: item['imageUrl'] ?? '',
                 petName: item['petName'] ?? '',
-                onAdopt: () {
-                  // Sahiplen butonuna basınca yapılacaklar
-                },
+                onAdopt: () {},
                 onTap: () async {
-                  // Sadece sahiplen butonu hariç kartın tamamına tıklanınca çalışır
                   final postIdStr = item['postId'];
                   if (postIdStr == null) return;
                   final postId = int.tryParse(postIdStr);
@@ -57,7 +54,7 @@ class Section extends StatelessWidget {
 
                   final postDetail = await PetDetailService.getPostById(postId);
 
-                  Navigator.of(context).pop(); // loading dialog kapat
+                  Navigator.of(context).pop();
 
                   if (postDetail != null && context.mounted) {
                     Navigator.push(

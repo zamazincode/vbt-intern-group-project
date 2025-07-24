@@ -22,5 +22,46 @@ class PetDetailService {
     }
     return null;
   }
-}
 
+  static Future<String?> generateDescription({
+    required String type,
+    required String breed,
+  }) async {
+    final url = Uri.parse('https://unuvarx.pythonanywhere.com/generate-description');
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        "type": type,
+        "breed": breed,
+      }),
+    );
+    print("GENERATEE DESCRIPTION RESPONSE: $response");
+    print("GENERATEE DESCRIPTION RESPONSE BODY: ${response.body}");
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      return data['description'] as String?;
+    }
+    return null;
+  }
+
+  static Future<String?> recommendPet({
+    required String preferences,
+  }) async {
+    final url = Uri.parse('https://unuvarx.pythonanywhere.com/recommend-pet');
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        "preferences": preferences,
+      }),
+    );
+    print("RECOMMEND PET RESPONSE: $response");
+    print("RECOMMEND PET RESPONSE BODY: ${response.body}");
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      return data['recommendation'] as String?;
+    }
+    return null;
+  }
+}

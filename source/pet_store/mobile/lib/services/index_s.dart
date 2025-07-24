@@ -1,6 +1,6 @@
+import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class PostService {
   static Future<String?> getAllPosts() async {
@@ -14,11 +14,16 @@ class PostService {
     final response = await http.get(
       url,
       headers: {
-        'Authorization': 'Bearer $token',
+        'Authorization': 'Bearer fef$token',
         'Content-Type': 'application/json',
       },
     );
-    return response.body;
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      print('GetAllPosts Hata: ${response.statusCode} - ${response.body}');
+      return null;
+    }
   }
 
   static Future<void> logout() async {

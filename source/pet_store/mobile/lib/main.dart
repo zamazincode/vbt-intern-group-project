@@ -21,8 +21,7 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-            create: (BuildContext context) => LoginViewModel()),
+        ChangeNotifierProvider(create: (_) => LoginViewModel()),
       ],
       child: PetStore(isLoggedIn: isLoggedIn),
     ),
@@ -36,9 +35,7 @@ class PetStore extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        fontFamily: 'SF PRO',
-      ),
+      theme: ThemeData(fontFamily: 'SF PRO'),
       debugShowCheckedModeBanner: false,
       initialRoute: '/login',
       home: isLoggedIn ? const MainPage() : const Login(),
@@ -57,7 +54,6 @@ class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
   }
 }
