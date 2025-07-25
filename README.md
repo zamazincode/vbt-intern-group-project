@@ -16,16 +16,16 @@ Projeyi kendi bilgisayarınızda çalıştırmak için aşağıdaki adımları i
 4.  Projeyi başlatın: `npm run dev` (veya `dotnet run`)
 
 ## Ekran Görüntüleri
-![Ekran Görüntüsü](1.png)
-![Ekran Görüntüsü](2.png)
-![Ekran Görüntüsü](3.png)
-![Ekran Görüntüsü](4.png)
-![Ekran Görüntüsü](5.png)
-![Ekran Görüntüsü](6.jpeg)
-![Ekran Görüntüsü](7.jpeg)
-![Ekran Görüntüsü](8.jpeg)
-![Ekran Görüntüsü](9.jpeg)
-![Ekran Görüntüsü](10.jpeg)
-![Ekran Görüntüsü](11.jpeg)
+![Ekran Görüntüsü](./images/1.png)
+![Ekran Görüntüsü](./images/2.png)
+![Ekran Görüntüsü](./images/3.png)
+![Ekran Görüntüsü](./images/4.png)
+![Ekran Görüntüsü](./images/5.png)
+![Ekran Görüntüsü](./images/6.jpeg)
+![Ekran Görüntüsü](./images/7.jpeg)
+![Ekran Görüntüsü](./images/8.jpeg)
+![Ekran Görüntüsü](./images/9.jpeg)
+![Ekran Görüntüsü](./images/10.jpeg)
+![Ekran Görüntüsü](./images/11.jpeg)
 
 
