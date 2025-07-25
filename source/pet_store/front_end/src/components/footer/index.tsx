@@ -13,7 +13,7 @@ export default function Footer() {
             <div className="w-full h-0.25 bg-gray rounded-full my-8" />
             <div>
                 <p className="text-center text-copy/60">
-                    ©2025 - All rights reserved
+                    © 2025 Tüm hakları saklıdır
                 </p>
             </div>
         </footer>

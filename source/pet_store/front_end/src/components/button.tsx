@@ -5,23 +5,29 @@ type ButtonProps = {
     isLink?: boolean;
     href?: string;
     classNames?: string;
-    children: React.ReactElement[] | string;
-};
+    children: React.ReactNode;
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export default function Button({
     isLink = false,
     href = "/",
     classNames = "",
     children,
+    ...props
 }: ButtonProps) {
-    const Component = isLink ? Link : "button";
+    const baseClass = `${classNames} text-white bg-primary rounded-full py-4 px-8 hover:bg-primary/90 transition-colors text-nowrap`;
+
+    if (isLink) {
+        return (
+            <Link to={href} className={baseClass}>
+                {children}
+            </Link>
+        );
+    }
 
     return (
-        <Component
-            to={isLink ? href : ""}
-            className={`${classNames} text-white bg-primary rounded-full py-4 px-8 hover:bg-primary/90 transition-colors text-nowrap `}
-        >
+        <button className={baseClass} {...props}>
             {children}
-        </Component>
+        </button>
     );
 }

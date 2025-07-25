@@ -17,9 +17,14 @@ interface AuthState {
 }
 
 const token = localStorage.getItem("token");
+const _user = localStorage.getItem("user");
+let user = null;
+if (_user) {
+    user = JSON.parse(_user);
+}
 
 const initialState: AuthState = {
-    user: null,
+    user: user || null,
     token: token || null,
     status: "idle",
     error: null,
@@ -82,6 +87,7 @@ const authSlice = createSlice({
             state.token = action.payload.token;
             state.user = action.payload.user;
             localStorage.setItem("token", action.payload.token);
+            localStorage.setItem("user", JSON.stringify(action.payload.user));
             state.error = null;
             state.status = "succeeded";
         });
