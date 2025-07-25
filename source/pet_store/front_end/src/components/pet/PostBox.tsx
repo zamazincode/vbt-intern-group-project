@@ -1,10 +1,10 @@
-import { Heart, MapPin, Clock, User, CheckCircle } from "lucide-react";
+import { MapPin, Clock, User, CheckCircle } from "lucide-react";
 import type { Post } from "../../services/petService";
 import { formatTime } from "../../utils";
 
 export default function PostBox({ post }: { post: Post }) {
     return (
-        <div className="bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100 group cursor-pointer max-w-[350px]">
+        <div className="bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100 group cursor-pointer ">
             <div className="relative overflow-hidden aspect-[4/3]">
                 <img
                     src={post.imageUrl}
@@ -66,13 +66,6 @@ export default function PostBox({ post }: { post: Post }) {
                 <div className="flex gap-3 pt-3">
                     <button className="flex-1 bg-primary text-white py-2.5 px-4 rounded-xl font-medium hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
                         {post.isAdopted ? "Detayları Gör" : "Sahiplen"}
-                    </button>
-
-                    <button className="p-2.5 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors group/heart">
-                        <Heart
-                            size={20}
-                            className="text-gray-400 group-hover/heart:text-red-500 transition-colors"
-                        />
                     </button>
                 </div>
             </div>

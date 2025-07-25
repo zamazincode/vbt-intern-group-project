@@ -99,7 +99,7 @@ export default function Profile() {
 
     return (
         <>
-            <section className="containerx py-12">
+            <section className="containerx py-12 min-h-screen">
                 <div className="border-b border-gray/50 py-6 mb-6 flex items-end justify-between">
                     <h2 className="capitalize text-xl">
                         {user?.name + " " + user?.surname}
@@ -114,7 +114,7 @@ export default function Profile() {
                 </div>
 
                 <div className="flex items-center justify-center flex-wrap gap-4 md:gap-8">
-                    {posts?.length === 0 ? (
+                    {posts?.length === 0 || !posts ? (
                         <div className="text-center py-12">
                             <p className="text-gray-500 text-lg mb-4">
                                 Henüz hiç ilanınız yok

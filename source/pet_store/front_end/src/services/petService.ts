@@ -176,11 +176,22 @@ export const deletePost = async (
     }
 };
 
-export const adoptPet = async (postId: number): Promise<boolean> => {
+export const adoptPet = async (
+    postId: number,
+    token: string,
+): Promise<boolean> => {
     const URL = API_URL + "/post/AdoptPost/" + postId;
 
     try {
-        const { data } = await axios.patch(URL);
+        const { data } = await axios.post(
+            URL,
+            {},
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            },
+        );
 
         return data.isSuccess;
     } catch (error) {
