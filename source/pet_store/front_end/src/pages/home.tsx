@@ -2,10 +2,19 @@ import { AlarmClock, LayoutGrid, Sparkles } from "lucide-react";
 import Button from "../components/button";
 import { Link } from "react-router";
 import { IMAGES } from "../constants/index";
+import { useState } from "react";
+import RecomendModal from "../components/RecommendModal";
 
 export default function Home() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     return (
         <>
+            <RecomendModal
+                isModalOpen={isModalOpen}
+                setIsModalOpen={setIsModalOpen}
+            />
+
             {/* Hero */}
             <section className="containerx flex-center max-md:flex-col-reverse  mt-6">
                 <div className="flex-1 space-y-8 max-md:text-center">
@@ -42,18 +51,20 @@ export default function Home() {
             <section className="my-32 px-12 py-8 containerx bg-foreground rounded-lg flex max-md:flex-col-reverse md:justify-between justify-center max-md:text-center items-center md:h-[300px]">
                 <div className="space-y-4 md:w-2/3">
                     <h2 className="text-4xl font-semibold">
-                        Lorem ipsum dolor sit amet!
+                        AI ile Evcil Hayvan Önerisi Alın
                     </h2>
-                    <p className="text-copy/70 md:w-[600px]">
-                        Lorem ipsum dolor sit amet consectetur, adipisicing
-                        elit. Dolores eaque esse doloribus quis quaerat, hic
-                        illum? Error in, debitis nihil dignissimos incidunt
-                        iusto provident voluptate earum quia enim dolores
-                        magnam!
+                    <p className="text-copy/70 md:w-[320px]  lg:w-[600px]">
+                        AI destekli sistem, yaşam tarzınıza en uygun evcil
+                        hayvanı önerir. Böylece size en iyi uyum sağlayacak
+                        dostu kolayca bulabilirsiniz.
                     </p>
 
-                    <Button isLink href="/ilanlar">
-                        Hemen Göz At
+                    <Button
+                        onClick={() => {
+                            setIsModalOpen(true);
+                        }}
+                    >
+                        Öneri Al
                     </Button>
                 </div>
 

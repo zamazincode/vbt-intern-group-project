@@ -75,7 +75,7 @@ export default function PetDetail() {
     }
 
     return (
-        <div className="containerx py-12">
+        <div className="containerx py-12 min-h-screen">
             <button
                 onClick={() => navigate(-1)}
                 className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors mb-8"

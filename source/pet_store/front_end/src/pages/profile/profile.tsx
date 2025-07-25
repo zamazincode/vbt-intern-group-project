@@ -99,10 +99,10 @@ export default function Profile() {
 
     return (
         <>
-            <section className="containerx py-12 min-h-screen">
+            <section className="containerx pt-4 pb-12 min-h-screen">
                 <div className="border-b border-gray/50 py-6 mb-6 flex items-end justify-between">
                     <h2 className="capitalize text-xl">
-                        {user?.name + " " + user?.surname}
+                        {user?.name} {user?.surname !== null && user?.surname}
                     </h2>
                     <Button
                         onClick={handleAddPost}
