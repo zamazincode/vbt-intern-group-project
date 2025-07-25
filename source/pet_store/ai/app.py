@@ -1,9 +1,11 @@
 import os
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import google.generativeai as genai
 
 
 app = Flask(__name__)
+CORS(app)  
 
 
 api_key = os.getenv("GEMINI_API_KEY")
@@ -14,6 +16,13 @@ if not api_key:
 
 genai.configure(api_key=api_key)
 model_name = "gemini-2.5-pro" 
+
+@app.route('/', methods=['GET'])
+def health_check():
+    """
+    API'nin çalışıp çalışmadığını kontrol eden endpoint.
+    """
+    return jsonify({"status": "API çalışıyor", "endpoints": ["/generate-description", "/recommend-pet"]})
 
 @app.route('/generate-description', methods=['POST'])
 def generate_description():
@@ -62,5 +71,8 @@ def recommend_pet():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=5000)
 
 application = app
