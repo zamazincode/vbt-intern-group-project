@@ -96,7 +96,7 @@ export default function EditPetModal({
                                         title: e.target.value,
                                     }))
                                 }
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm ring-none outline-none px-2.5 py-2 border"
                             />
                         </div>
 
@@ -114,7 +114,7 @@ export default function EditPetModal({
                                         petName: e.target.value,
                                     }))
                                 }
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm ring-none outline-none px-2.5 py-2 border"
                             />
                         </div>
 
@@ -132,7 +132,7 @@ export default function EditPetModal({
                                         petType: e.target.value,
                                     }))
                                 }
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm ring-none outline-none px-2.5 py-2 border"
                             />
                         </div>
 
@@ -150,7 +150,7 @@ export default function EditPetModal({
                                     }))
                                 }
                                 rows={3}
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm ring-none outline-none px-2.5 py-2 border"
                             />
                         </div>
 

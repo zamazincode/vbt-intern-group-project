@@ -3,6 +3,7 @@ import { Dialog } from "@headlessui/react";
 import Button from "../button";
 import { useAuth } from "../../hooks/useAuth";
 import type { PostQuery } from "../../services/petService";
+import { generateDescription } from "../../services/aiService";
 
 interface AddPetModalProps {
     isOpen: boolean;
@@ -23,6 +24,26 @@ export default function AddPetModal({
         description: "",
         image: null as File | null,
     });
+
+    const [isLoading, setIsLoading] = useState(false);
+
+    const fetchDescription = async () => {
+        if (!formData.petType || !formData.petName) return;
+
+        setIsLoading(true);
+        const response = await generateDescription(
+            formData.petType,
+            formData.petName,
+        );
+        setIsLoading(false);
+
+        if (response?.description) {
+            setFormData((prev) => ({
+                ...prev,
+                description: response.description,
+            }));
+        }
+    };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -89,7 +110,7 @@ export default function AddPetModal({
                                         title: e.target.value,
                                     }))
                                 }
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm ring-none outline-none px-2.5 py-2 border"
                             />
                         </div>
 
@@ -107,7 +128,7 @@ export default function AddPetModal({
                                         petName: e.target.value,
                                     }))
                                 }
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm ring-none outline-none px-2.5 py-2 border"
                             />
                         </div>
 
@@ -125,14 +146,28 @@ export default function AddPetModal({
                                         petType: e.target.value,
                                     }))
                                 }
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm ring-none outline-none px-2.5 py-2 border"
                             />
+                            {isLoading && (
+                                <p className="text-sm text-gray-500 mt-1">
+                                    Açıklama oluşturuluyor...
+                                </p>
+                            )}
                         </div>
 
                         <div>
                             <label className="block text-sm font-medium text-gray-700">
                                 Açıklama
                             </label>
+                            <button
+                                type="button"
+                                onClick={fetchDescription}
+                                disabled={isLoading}
+                                className="text-sm text-blue-600 hover:underline mt-1"
+                            >
+                                {isLoading ? "Yükleniyor..." : "AI ile üret"}
+                            </button>
+
                             <textarea
                                 required
                                 value={formData.description}
@@ -143,7 +178,7 @@ export default function AddPetModal({
                                     }))
                                 }
                                 rows={3}
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm ring-none outline-none px-2.5 py-2 border"
                             />
                         </div>
 
