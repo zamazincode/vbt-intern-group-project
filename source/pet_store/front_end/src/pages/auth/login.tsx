@@ -180,7 +180,7 @@ export default function Login() {
                 transition-all duration-200 transform mt-2 
                 ${
                     isLoading
-                        ? "bg-gray-400 cursor-not-allowed"
+                        ? "bg-gray-400 !cursor-not-allowed"
                         : "bg-primary hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl"
                 }
               `}

@@ -8,6 +8,7 @@ import Register from "./pages/auth/register";
 import ProfileLayout from "./pages/profile/ProfileLayout";
 import Profile from "./pages/profile/profile";
 import ProtectedRoute from "./components/ProtectedRoot";
+import PetDetail from "./pages/pet/PetDetail";
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
                 <Route index element={<Home />} />
 
                 <Route path="ilanlar" element={<PetList />} />
+                <Route path="/ilan/:id" element={<PetDetail />} />
 
                 <Route path="auth/login" element={<Login />} />
                 <Route path="auth/register" element={<Register />} />
