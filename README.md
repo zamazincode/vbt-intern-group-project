@@ -1,6 +1,6 @@
 # Proje Adı: [Buraya Proje Adını Yazın]
 
-[Buraya projenin kısa bir tanımını ekleyin. Bu proje ne yapar? Hangi problemi çözer?]
+Bu proje, hayvan sahiplendirmek için oluşturulmuş bir topluluk platformudur.
 
 ## Kullanılan Teknolojiler
 * [Teknoloji 1]
@@ -16,8 +16,16 @@ Projeyi kendi bilgisayarınızda çalıştırmak için aşağıdaki adımları i
 4.  Projeyi başlatın: `npm run dev` (veya `dotnet run`)
 
 ## Ekran Görüntüleri
+![Ekran Görüntüsü](1.png)
+![Ekran Görüntüsü](2.png)
+![Ekran Görüntüsü](3.png)
+![Ekran Görüntüsü](4.png)
+![Ekran Görüntüsü](5.png)
+![Ekran Görüntüsü](6.jpeg)
+![Ekran Görüntüsü](7.jpeg)
+![Ekran Görüntüsü](8.jpeg)
+![Ekran Görüntüsü](9.jpeg)
+![Ekran Görüntüsü](10.jpeg)
+![Ekran Görüntüsü](11.jpeg)
 
-[Projenizin ana sayfasından, detay sayfasından veya önemli bulduğunuz diğer ekranlardan görüntüler ekleyin.]
 
-![Ana Sayfa Ekran Görüntüsü](link_veya_dosya_yolu)
-![Detay Sayfası Ekran Görüntüsü](link_veya_dosya_yolu)
