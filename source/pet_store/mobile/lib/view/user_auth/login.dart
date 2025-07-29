@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
-
 class Login extends StatefulWidget {
   const Login({super.key});
 
@@ -44,7 +43,10 @@ class _LoginState extends State<Login> {
         backgroundColor: AppColors.yellow,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.home, color: AppColors.white,),
+          icon: const Icon(
+            Icons.home,
+            color: AppColors.white,
+          ),
           tooltip: "Ana Sayfa",
           onPressed: () {
             Navigator.pushReplacementNamed(context, '/mainPage');
@@ -74,9 +76,7 @@ class _LoginState extends State<Login> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text("Kullanıcı Adı",
-                    style: TextStyle(
-                        color: AppColors.yellow, fontWeight: FontWeight.bold)),
+                const Text("Kullanıcı Adı", style: TextStyle(color: AppColors.yellow, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 8),
                 TextField(
                   onChanged: (v) => loginVM.username = v,
@@ -95,11 +95,8 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 24),
-                const Text("Şifre",
-                    style: TextStyle(
-                        color: AppColors.yellow, fontWeight: FontWeight.bold)),
+                const Text("Şifre", style: TextStyle(color: AppColors.yellow, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 8),
                 TextField(
                   obscureText: true,
@@ -119,7 +116,6 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 30),
                 SizedBox(
                   width: double.infinity,
@@ -130,7 +126,8 @@ class _LoginState extends State<Login> {
                             setState(() {
                               isLoading = true;
                             });
-                            final result = await LoginService.login(loginVM.username, loginVM.password);
+                            final loginService = LoginService();
+                            final result = await loginService.login(loginVM.username, loginVM.password);
                             final body = result['body'];
                             if (body['isSuccess'] == true && body['result'] != null) {
                               final token = body['result']['token'];
@@ -156,7 +153,7 @@ class _LoginState extends State<Login> {
                             }
                           },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor:AppColors.yellow,
+                      backgroundColor: AppColors.yellow,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
                     child: isLoading

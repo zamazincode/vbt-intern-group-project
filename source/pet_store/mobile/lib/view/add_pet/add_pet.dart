@@ -172,16 +172,18 @@ class _AddPetFormState extends State<AddPetForm> with SingleTickerProviderStateM
                             return;
                           }
                           vm.setLoading(true);
-
-                          final description = await PetDetailService.generateDescription(
-                            type: vm.petType ?? '',
-                            breed: vm.petName ?? '',
-                          ) ?? '';
+                          final petdetailservice = PetDetailService();
+                          final description = await petdetailservice.generateDescription(
+                                type: vm.petType ?? '',
+                                breed: vm.petName ?? '',
+                              ) ??
+                              '';
                           print("GENERATE DESCRİPTİONN: $description");
 
                           vm.description = description;
 
-                          final response = await AddPetService.createPost(vm.toRequestBody(), imageFile: _imageFile);
+                          final addPetService = AddPetService();
+                          final response = await addPetService.createPost(vm.toRequestBody(), imageFile: _imageFile);
                           vm.setLoading(false);
                           if (response.statusCode == 200 || response.statusCode == 201) {
                             if (!mounted) return;

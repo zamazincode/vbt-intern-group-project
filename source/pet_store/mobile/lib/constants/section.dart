@@ -52,7 +52,8 @@ class Section extends StatelessWidget {
                     builder: (context) => const Center(child: CircularProgressIndicator()),
                   );
 
-                  final postDetail = await PetDetailService.getPostById(postId);
+                  final petDetailService = PetDetailService();
+                  final postDetail = await petDetailService.getPostById(postId);
 
                   Navigator.of(context).pop();
 

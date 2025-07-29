@@ -38,7 +38,8 @@ class _MainPageState extends State<MainPage> {
   }
 
   Future<void> fetchAndSetPosts() async {
-    final response = await PostService.getAllPosts();
+    final postService = PostService();
+    final response = await postService.getAllPosts();
     if (response != null) {
       final decoded = jsonDecode(response);
       final posts = decoded['result'] as List<dynamic>? ?? [];
@@ -128,7 +129,8 @@ class _MainPageState extends State<MainPage> {
               icon: const Icon(Icons.logout, color: AppColors.white),
               tooltip: 'Çıkış Yap',
               onPressed: () async {
-                await PostService.logout();
+                final postService = PostService();
+                await postService.logout();
                 if (mounted) {
                   setState(() {
                     isLoggedIn = false;
@@ -177,12 +179,9 @@ class _MainPageState extends State<MainPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                if (catPosts.isNotEmpty)
-                  Section(title: "Kediler", items: catPosts),
-                if (dogPosts.isNotEmpty)
-                  Section(title: "Köpekler", items: dogPosts),
-                if (otherPosts.isNotEmpty)
-                  Section(title: "Diğerleri", items: otherPosts),
+                if (catPosts.isNotEmpty) Section(title: "Kediler", items: catPosts),
+                if (dogPosts.isNotEmpty) Section(title: "Köpekler", items: dogPosts),
+                if (otherPosts.isNotEmpty) Section(title: "Diğerleri", items: otherPosts),
                 if (catPosts.isEmpty && dogPosts.isEmpty && otherPosts.isEmpty)
                   const Center(
                     child: Padding(
@@ -225,12 +224,13 @@ class _RecommendPetSheetState extends State<_RecommendPetSheet> with SingleTicke
 
   Future<void> _handleRecommend() async {
     final tercih = widget.controller.text.trim();
+    final petDetailService = PetDetailService();
     if (tercih.isEmpty) return;
     setState(() {
       _isLoading = true;
     });
     _aiController.repeat();
-    final recommendation = await PetDetailService.recommendPet(preferences: tercih);
+    final recommendation = await petDetailService.recommendPet(preferences: tercih);
     _aiController.stop();
     setState(() {
       _isLoading = false;
