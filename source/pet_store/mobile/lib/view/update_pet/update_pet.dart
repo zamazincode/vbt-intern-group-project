@@ -24,7 +24,7 @@ class _UpdatePetState extends State<UpdatePet> {
   bool isLoading = false;
   File? _imageFile;
   String? _imageBase64;
-
+  ProfileService profileService = ProfileService();
   @override
   void initState() {
     super.initState();
@@ -75,7 +75,7 @@ class _UpdatePetState extends State<UpdatePet> {
     updatedData['userId'] = widget.postData['userId'] ?? '';
     updatedData['user'] = widget.postData['user'] ?? {};
 
-    final success = await ProfileService.updatePost(
+    final success = await profileService.updatePost(
       updatedData,
       imageFile: _imageFile,
       imageBase64: _imageBase64,

@@ -1,19 +1,31 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
-class RegisterService {
-  static const String _baseUrl = 'https://petstoreapi.justkey.online/api/user/Register';
 
-  static Future<String> register(Map<String, dynamic> data) async {
-    final response = await http.post(
-      Uri.parse(_baseUrl),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode(data),
-    );
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      return "Kayıt başarılı!";
-    } else {
-      return "Kayıt başarısız: ${response.body}";
+import 'package:mobile/core/Services/Manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class RegisterService {
+  final ServiceManager _manager = ServiceManager();
+
+  Future<String> register(Map<String, dynamic> data) async {
+    final prefs = await SharedPreferences.getInstance();
+    final url = _manager.buildUri('user/Register');
+    final token = prefs.getString('token');
+    final headers = _manager.getHeaders(token);
+
+    try {
+      final response = await _manager.client.post(
+        url,
+        headers: headers,
+        body: jsonEncode(data),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return " Kayıt başarılı!";
+      } else {
+        return " Kayıt başarısız: ${response.body}";
+      }
+    } catch (e) {
+      return " Kayıt sırasında hata oluştu: $e";
     }
   }
 }
-

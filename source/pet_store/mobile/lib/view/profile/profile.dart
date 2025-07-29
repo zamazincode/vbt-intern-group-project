@@ -15,21 +15,21 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   late Future<List<dynamic>> _postsFuture;
-
+  ProfileService profileService = ProfileService();
   @override
   void initState() {
     super.initState();
-    _postsFuture = ProfileService.getAllPosts();
+    _postsFuture = profileService.getAllPosts();
   }
 
   Future<void> _refreshPosts() async {
     setState(() {
-      _postsFuture = ProfileService.getAllPosts();
+      _postsFuture = profileService.getAllPosts();
     });
   }
 
   Future<void> _deletePost(int postId) async {
-    final success = await ProfileService.deletePost(postId);
+    final success = await profileService.deletePost(postId);
     if (success) {
       await _refreshPosts();
     } else {
@@ -141,7 +141,7 @@ class _ProfileState extends State<Profile> {
                         children: [
                           ElevatedButton.icon(
                             onPressed: () async {
-                              final postDetail = await ProfileService.getPostById(post['postId']);
+                              final postDetail = await profileService.getPostById(post['postId']);
                               if (postDetail != null && context.mounted) {
                                 Navigator.push(
                                   context,

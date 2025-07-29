@@ -1,22 +1,36 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+
+import 'package:mobile/core/Services/Manager.dart';
 
 class LoginService {
-  static const String _baseUrl = 'https://petstoreapi.justkey.online/api/user/Login';
+  final ServiceManager _manager = ServiceManager();
 
-  static Future<Map<String, dynamic>> login(String userName, String password) async {
-    final response = await http.post(
-      Uri.parse(_baseUrl),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        "userName": userName,
-        "password": password,
-      }),
-    );
-    return {
-      "statusCode": response.statusCode,
-      "body": jsonDecode(response.body),
-    };
+  Future<Map<String, dynamic>> login(String userName, String password) async {
+    final url = _manager.buildUri('user/Login');
+    final headers = _manager.getHeaders('application/json');
+
+    try {
+      final response = await _manager.client.post(
+        url,
+        headers: headers,
+        body: jsonEncode({
+          "userName": userName,
+          "password": password,
+        }),
+      );
+
+      final responseBody = jsonDecode(response.body);
+
+      return {
+        "statusCode": response.statusCode,
+        "body": responseBody,
+      };
+    } catch (e) {
+      print('❌ Login error: $e');
+      return {
+        "statusCode": 500,
+        "body": {"message": "Bir hata oluştu"}
+      };
+    }
   }
 }
-

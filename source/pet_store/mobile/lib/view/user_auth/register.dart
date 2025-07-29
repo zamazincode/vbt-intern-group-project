@@ -14,16 +14,17 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   final RegisterViewModel _vm = RegisterViewModel();
   bool isLoading = false;
+  RegisterService registerService = RegisterService();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:AppColors.white,
+      backgroundColor: AppColors.white,
       body: Column(
         children: [
           Container(
             height: 100,
-            color:AppColors.yellow,
+            color: AppColors.yellow,
             padding: const EdgeInsets.only(top: 40, left: 16),
             alignment: Alignment.centerLeft,
             child: InkWell(
@@ -48,7 +49,8 @@ class _RegisterState extends State<Register> {
                 buildField("Ad", "Adınızı girin", onChanged: (v) => _vm.name = v),
                 buildField("Soyad", "Soyadınızı girin", onChanged: (v) => _vm.surname = v),
                 buildField("Kullanıcı Adı", "Kullanıcı adınızı girin", onChanged: (v) => _vm.userName = v),
-                buildField("E-posta", "E-posta adresinizi girin", keyboardType: TextInputType.emailAddress, onChanged: (v) => _vm.email = v),
+                buildField("E-posta", "E-posta adresinizi girin",
+                    keyboardType: TextInputType.emailAddress, onChanged: (v) => _vm.email = v),
                 buildField("Şifre", "Şifre belirleyin", isPassword: true, onChanged: (v) => _vm.password = v),
                 const SizedBox(height: 24),
                 SizedBox(
@@ -60,7 +62,7 @@ class _RegisterState extends State<Register> {
                             setState(() {
                               isLoading = true;
                             });
-                            final result = await RegisterService.register(_vm.toJson());
+                            final result = await registerService.register(_vm.toJson());
                             if (!mounted) return;
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text(result)),
@@ -77,7 +79,7 @@ class _RegisterState extends State<Register> {
                             });
                           },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor:AppColors.yellow,
+                      backgroundColor: AppColors.yellow,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
                     child: isLoading
@@ -109,8 +111,7 @@ class _RegisterState extends State<Register> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 16),
-        Text(label,
-            style: const TextStyle(color:AppColors.yellow, fontWeight: FontWeight.bold)),
+        Text(label, style: const TextStyle(color: AppColors.yellow, fontWeight: FontWeight.bold)),
         const SizedBox(height: 8),
         TextField(
           obscureText: isPassword,
@@ -124,7 +125,7 @@ class _RegisterState extends State<Register> {
               borderRadius: BorderRadius.circular(6),
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color:AppColors.yellow, width: 2),
+              borderSide: const BorderSide(color: AppColors.yellow, width: 2),
               borderRadius: BorderRadius.circular(6),
             ),
           ),
